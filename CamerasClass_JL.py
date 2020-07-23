@@ -17,7 +17,7 @@ try:
 except:
     print 'Could not load Lumenera'        
 from Princeton_wrapper import Princeton,PrincetonForceClose
-from masterHeader_wrapper import ShutterOpenMode 
+from mainHeader_wrapper import ShutterOpenMode 
 try:
     import ExplicitAdvancedFunctions as PCO
 except:
@@ -32,7 +32,7 @@ import os
 import tifffile as tiff
 
 import sys
-sys.path.append("C:\Program Files (x86)\Point Grey Research\pyfly1-master\src")
+sys.path.append("C:\Program Files (x86)\Point Grey Research\pyfly1-main\src")
 sys.path.append("C:\Python27\Lib\site-packages\PIL")
 import pyfly1
 import cv

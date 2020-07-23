@@ -17,7 +17,7 @@ try:
 except:
     print 'Could not load Lumenera'        
 from Princeton_wrapper import Princeton,PrincetonForceClose
-from masterHeader_wrapper import ShutterOpenMode 
+from mainHeader_wrapper import ShutterOpenMode 
 try:
     import ExplicitAdvancedFunctions as PCO
 except:

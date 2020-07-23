@@ -65,13 +65,13 @@ class MainWindow(QtGui.QMainWindow):
             writeConfigFileDefault()
         self.config.read('configCamerasMain.cfg')
 
-        self.saveFromSlave = False
-        self.slaveIP = self.config.get('General Parameters','slave IP')
-        self.slavePort = self.config.getint('General Parameters','slave port')
+        self.saveFromSubordinate = False
+        self.subordinateIP = self.config.get('General Parameters','subordinate IP')
+        self.subordinatePort = self.config.getint('General Parameters','subordinate port')
         
 #        Booleans describing state of camera and program
         self.is_server_connected = False
-        self.is_slaveserver_connected = False
+        self.is_subordinateserver_connected = False
         self.is_preview_on = False
         self.cicero_is_running = False
         self.are_camera_initialized = False
@@ -91,17 +91,17 @@ class MainWindow(QtGui.QMainWindow):
         self.threadListenCicero = None
         self.conn = None
         self.currentPicture = None
-        self.sockSlave = None
+        self.sockSubordinate = None
         try:
             self.server_connect() 
             print 'Server started'
         except:
             print 'Could not connnect to server'
 #        try:
-        self.serverSlave_connect() 
-        print 'Slave server started'
+        self.serverSubordinate_connect() 
+        print 'Subordinate server started'
 #        except:
-#            print 'Could not connnect to slave server'
+#            print 'Could not connnect to subordinate server'
         
 #        Fields related to camera handling
         self.cameras = [] # List of cameras
@@ -372,7 +372,7 @@ class MainWindow(QtGui.QMainWindow):
             print 'Could not connect to server'
         return
         
-    def serverSlave_connect(self):
+    def serverSubordinate_connect(self):
         """
 
         Start server connection
@@ -380,27 +380,27 @@ class MainWindow(QtGui.QMainWindow):
 
         """
         try:
-            print 'Connecting to slave server'
-            self.slaveIP = self.config.get('General Parameters','slave IP')
-            self.slavePort = self.config.getint('General Parameters','slave port')
-            HOST = self.slaveIP
-            PORT = self.slavePort
+            print 'Connecting to subordinate server'
+            self.subordinateIP = self.config.get('General Parameters','subordinate IP')
+            self.subordinatePort = self.config.getint('General Parameters','subordinate port')
+            HOST = self.subordinateIP
+            PORT = self.subordinatePort
             server_address = ((HOST, PORT))
             print 'open socket'
             print server_address
-            self.sockSlave = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            self.sockSubordinate = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     #        try:
-            self.sockSlave.connect(server_address)
+            self.sockSubordinate.connect(server_address)
     #        except:
-    #            self.sockSlave = None
-    #            print 'Could not open slave socket'
+    #            self.sockSubordinate = None
+    #            print 'Could not open subordinate socket'
     #            return
-            print 'starting slave on %s port %s' % server_address
+            print 'starting subordinate on %s port %s' % server_address
             self.ui.CiceroCommunication.append(
-                'starting slave on %s port %s' % server_address) 
-            self.is_slaveserver_connected = True
+                'starting subordinate on %s port %s' % server_address) 
+            self.is_subordinateserver_connected = True
         except:
-            print 'Could not connect to slave server'
+            print 'Could not connect to subordinate server'
         return
             
         
@@ -443,33 +443,33 @@ class MainWindow(QtGui.QMainWindow):
                 print 'message : start taking picture with Cicero if enabled'
                 if self.takePictureWithCicero: # Boolean whise value is controlled via GUI interaction
                     print 'Taking picture with Cicero'                    
-                    if self.saveFromSlave:
+                    if self.saveFromSubordinate:
                         self.ui.CiceroCommunication.append('on remote server')
                         print 'on remote server'
-                        if type(self.sockSlave) == type(None):
+                        if type(self.sockSubordinate) == type(None):
                             try:
-                                self.sockSlave.close()
-                                print 'Slave server closed'
+                                self.sockSubordinate.close()
+                                print 'Subordinate server closed'
                             except:
-                                print 'Could not close slave server'
+                                print 'Could not close subordinate server'
                                 continue
                             try:
-                                self.serverSlave_connect() 
-                                print 'Slave server started'
+                                self.serverSubordinate_connect() 
+                                print 'Subordinate server started'
                             except:
-                                print 'Could not (re)connnect to slave server'
+                                print 'Could not (re)connnect to subordinate server'
                                 continue
                         try:
-                            self.sockSlave.send(data)
+                            self.sockSubordinate.send(data)
                         except:
                             try:
-                                self.sockSlave.close()
-                                print 'Slave server closed'
+                                self.sockSubordinate.close()
+                                print 'Subordinate server closed'
                             except:
-                                print 'Could not close slave server'
+                                print 'Could not close subordinate server'
                                 continue
-                            self.serverSlave_connect() 
-                            print 'Slave server started'
+                            self.serverSubordinate_connect() 
+                            print 'Subordinate server started'
                             
                     else:
                         print 'on local server'
@@ -781,7 +781,7 @@ class MainWindow(QtGui.QMainWindow):
         Preview window
 
         """
-        self.saveFromSlave = not self.saveFromSlave
+        self.saveFromSubordinate = not self.saveFromSubordinate
 
 
 def writeConfigFileDefault():
@@ -795,8 +795,8 @@ def writeConfigFileDefault():
     config.add_section('General Parameters')
     config.set('General Parameters','Cicero port','12121')
     config.set('General Parameters','Picture storing path','Z:\%Y\%b%Y\%d%b%Y\Pictures\RAW')
-    config.set('General Parameters','slave IP','172.16.2.17')
-    config.set('General Parameters','slave port','12122')
+    config.set('General Parameters','subordinate IP','172.16.2.17')
+    config.set('General Parameters','subordinate port','12122')
     config.set('General Parameters','useLumenera','1')
     config.set('General Parameters','usePixelfly','1')
     config.set('General Parameters','usePrinceton','0')

@@ -25,7 +25,7 @@ __docformat__ = 'restructuredtext en'
 #/*****************************************************************************/
 #ifndef _MASTER_H
 #define _MASTER_H
-#static const char *_master_h_="$Header: /PVCAM/SourceWindows/master.h 1     7/18/02 8:17a Dtrent $";
+#static const char *_main_h_="$Header: /PVCAM/SourceWindows/main.h 1     7/18/02 8:17a Dtrent $";
 #
 ##ifndef WIN32
 #    #error OS Not Supported
