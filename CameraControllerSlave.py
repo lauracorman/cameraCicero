@@ -59,9 +59,9 @@ class MainWindow(QtGui.QMainWindow):
         
 #        Load config file
         self.config = ConfigParser.RawConfigParser()
-        if not os.path.isfile('Z:\PythonPrograms\CameraControllerMain\configCamerasSlave.cfg'):      
+        if not os.path.isfile('Z:\PythonPrograms\CameraControllerMain\configCamerasSubordinate.cfg'):      
             writeConfigFileDefault()
-        self.config.read('Z:\PythonPrograms\CameraControllerMain\configCamerasSlave.cfg')
+        self.config.read('Z:\PythonPrograms\CameraControllerMain\configCamerasSubordinate.cfg')
         
 #        Booleans describing state of camera and program
         self.is_server_connected = False
@@ -349,7 +349,7 @@ class MainWindow(QtGui.QMainWindow):
         print 'in server connect'
         
         HOST = socket.gethostname()
-        PORT = self.config.getint('General Parameters','master port')
+        PORT = self.config.getint('General Parameters','main port')
         server_address = ((HOST, PORT))
         print 'open socket'
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -684,7 +684,7 @@ def writeConfigFileDefault():
     
     config.add_section('General Parameters')
     config.set('General Parameters','cicero port','12121')
-    config.set('General Parameters','master port','12122')
+    config.set('General Parameters','main port','12122')
     config.set('General Parameters','Picture storing path','Z:\%Y\%b%Y\%d%b%Y\Pictures\RAW')
     config.set('General Parameters','useLumenera','0')
     config.set('General Parameters','usePixelfly','0')
@@ -715,7 +715,7 @@ def writeConfigFileDefault():
     config.set('Princeton camera 1','exposureTime','0.04')
     config.set('Princeton camera 1','gain','1')
     
-    with open('configCamerasSlave.cfg','w') as configfile:
+    with open('configCamerasSubordinate.cfg','w') as configfile:
         config.write(configfile)
     return
     

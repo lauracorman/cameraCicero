@@ -48,7 +48,7 @@ from __future__ import division
 import sys
 import ctypes as ct
 import numpy
-from masterHeader_wrapper import *
+from mainHeader_wrapper import *
 import time
 __version__ = '2013.01.18'
 __docformat__ = 'restructuredtext en'
